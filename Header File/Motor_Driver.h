@@ -1,22 +1,28 @@
-#ifndef Testing_Header_h
-#define Testing_Header_h
+#ifndef Motor_Driver_h
+#define Motor_Driver_h
 
 #include "Arduino.h" 
 
 //input signals from hall effect sensors
-#define PH_A_IN 44//interrupt 1 on pin 44
-#define PH_B_IN 45//interrupt 2 on pin 44
-#define PH_C_IN 46//interrupt 3 on pin 46
+#define PH_A_IN 19//interrupt PCINT0 on pin 19
+#define PH_B_IN 20//interrupt PCINT1 on pin 20
+#define PH_C_IN 21//interrupt PCINT2 on pin 21
+
+//PWM Pins and opperations
+#define PWM_No_Connect 9 //This will be the pin the PWM signal will output. It's only role is to be read
+#define PWM_Work_Around 10 //This pin if only reading the state of the PWM signal for ease of programming issues 
+
+//Driving_Pins() function declarations
+bool In_A, In_B, In_C, PWM_State; //These are the pins that will read the state of the hall effect sensor and PWM signal
 
 //output signals to the mosfet driver
-//These definitions reflect the posibility of 
-//using 3 different timer running at the same frequency
-//but only outputtuing when needed.
-#define PH_A_OUT_H 26 //OC0A timer0
-#define PH_B_OUT_H 24 //OC1A timer1
-#define PH_C_OUT_H 23 //OC2A timer2
-//Will likely have to utilize interrupt routines to get
-//the other 3 outptus for the Low side transistors.
+#define PH_A_OUT_H 23 
+#define PH_B_OUT_H 24 
+#define PH_C_OUT_H 25 
+
+#define PH_A_OUT_L 26
+#define PH_B_OUT_L 27
+#define PH_C_OUT_L 28
 
 
 // Fault, current and ADC pins
