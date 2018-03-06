@@ -11,6 +11,9 @@
 //PWM Pins and opperations
 #define PWM_No_Connect 9 //This will be the pin the PWM signal will output. It's only role is to be read
 #define PWM_Work_Around 10 //This pin if only reading the state of the PWM signal for ease of programming issues 
+int speed_read; //This is the value that the driver will control with the potentiometer. 
+				//Based on hardware design, this value should range from ~0-250)
+
 
 //Driving_Pins() function declarations
 bool In_A, In_B, In_C, PWM_State; //These are the pins that will read the state of the hall effect sensor and PWM signal
@@ -34,8 +37,9 @@ bool In_A, In_B, In_C, PWM_State; //These are the pins that will read the state 
 #define Sense_A 95 //ADC2 to read phase A Back EMF
 #define Sense_B 94 //ADC3 to read phase B Back EMF
 #define Sense_C 93 //ADC4  to read phase C Back EMF
-#define Motor_Temp 92 //ADC5 to read the temperature of the motor
-#define Driver_Input 91 //ADC6 to read the driver input to control the speed of the motor
+//#define Motor_Temp 92 //ADC5 to read the temperature of the motor
+#define Driver_Input 91 //ADC5 to read the driver input to control the speed of the motor
+//Datasheet says this should be ADC6, but practise showed it to be ADC5. 
 
 
 
