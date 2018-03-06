@@ -21,24 +21,31 @@ void setup() {
   //Setting up the PWM pins
   pinMode(PWM_No_Connect, OUTPUT);                                             //pin 9, just connects to a resistor to ground
   pinMode(PWM_Work_Around, INPUT);                                             //pin 10, reads state of pin 9
-  TCCR2B &= ~_BV(CS22);                                                        //cancelling pre-scaler of 64
-  TCCR2B |= _BV(CS21);                                                         //making prescaler of 1 to get 62.5kHz pwm frequency
+  TCCR2B = _BV(CS21);                                                         //making prescaler of 8 to get 4kHz pwm frequency
+                                                                              //Note: Want the routine to be entirely interrupt driven to increase frequency,
+                                                                              //but cannot figure out why won't work
+  //Getting initial states
+  In_A=digitalRead(PH_A_IN);  
+  In_B=digitalRead(PH_B_IN); 
+  In_C=digitalRead(PH_C_IN);
+  PWM_State=digitalRead(PWM_Work_Around);
 }
 
 void loop() {
   
-  analogWrite(PWM_No_Connect, 50);                                             //Outputing the analog output to this pin, this will only be used
-                                                                               //to check the state of the pin. Change the speed value from interger 
-                                                                               //values of 10-250 for speed control
+  speed_read=analogRead(Driver_Input);                                        //Reading value from pot. Should be between 0-250 integer values
+  
+  analogWrite(PWM_No_Connect, speed_read);                                    //Changing PWM width based on potentiometer value
   Driving_Pins();
   
 }
 
 void Driving_Pins(){
+  //Reads the states of the pins in the beggining  
+  //It will then take the states of each and 
+  //apply boolean logic so the pins output correctly
+  
   //Reading states of Hall sensors and speed control
-  In_A=digitalRead(PH_A_IN);                                                   //Reads the states of the pins in the beggining  
-  In_B=digitalRead(PH_B_IN);                                                   //It will then take the states of each and 
-  In_C=digitalRead(PH_C_IN);                                                   //apply boolean logic so the pins output correctly
   PWM_State=digitalRead(PWM_Work_Around);
 
   //Setting pins based on boolean logic of pin states
@@ -53,15 +60,15 @@ void Driving_Pins(){
 }
 
 void HallA(){
-  Driving_Pins();
+  In_A=digitalRead(PH_A_IN);
 }
 
 void HallB(){
-  Driving_Pins();
+  In_B=digitalRead(PH_B_IN);
 }
 
 void HallC(){
-  Driving_Pins();
+  In_C=digitalRead(PH_C_IN);
   
 }
 
